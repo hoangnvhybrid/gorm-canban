@@ -18,6 +18,7 @@ type ProductRepository interface {
 	OrderByAndConditions(status bool) ([]entities.Product, error)
 	LimitAndWhereAndOrderBy(status bool, n int) ([]entities.Product, error)
 	SelectWithConditions(status bool) ([]entities.ProductInfo, error)
+	GroupBy() ([]entities.ProductGroup, error)
 }
 
 func NewProductRepository() ProductRepository {
@@ -27,6 +28,18 @@ func NewProductRepository() ProductRepository {
 type productModel struct {
 }
 
+func (*productModel) GroupBy() ([]entities.ProductGroup, error) {
+	db, err := config.GetDB()
+	if err != nil {
+		return nil, err
+	}
+	var productGroups []entities.ProductGroup
+	db.Table("product").
+		Select("status, count(id) as result1, sum(quantity) as result2, min(price) as result3, max(price) as result4, avg(price) as result5").
+		Group("status").
+		Scan(&productGroups)
+	return productGroups, nil
+}
 func (*productModel) SelectWithConditions(status bool) ([]entities.ProductInfo, error) {
 	db, err := config.GetDB()
 	if err != nil {
