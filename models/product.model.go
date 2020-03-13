@@ -19,6 +19,8 @@ type ProductRepository interface {
 	LimitAndWhereAndOrderBy(status bool, n int) ([]entities.Product, error)
 	SelectWithConditions(status bool) ([]entities.ProductInfo, error)
 	GroupBy() ([]entities.ProductGroup, error)
+	FindAllStoredProcedureNoParameter() ([]entities.Product, error)
+	FindByStoredProcedureHasParameter(min, max float64) ([]entities.Product, error)
 }
 
 func NewProductRepository() ProductRepository {
@@ -28,6 +30,37 @@ func NewProductRepository() ProductRepository {
 type productModel struct {
 }
 
+func (*productModel) FindAllStoredProcedureNoParameter() ([]entities.Product, error) {
+	db, err := config.GetDB()
+	if err != nil {
+		return nil, err
+	}
+	//DELIMITER $$
+	//CREATE PROCEDURE sp_findAll()
+	//BEGIN
+	//SELECT * FROM product;
+	//END $$
+	//DELIMITER ;
+	var products []entities.Product
+	db.Raw("call sp_findAll()").Scan(&products)
+	return products, nil
+}
+func (*productModel) FindByStoredProcedureHasParameter(min, max float64) ([]entities.Product, error) {
+	db, err := config.GetDB()
+	if err != nil {
+		return nil, err
+	}
+	//sql
+	//DELIMITER $$
+	//CREATE PROCEDURE findBetween(min decimal, max decimal)
+	//BEGIN
+	//SELECT * FROM product where price BETWEEN min and max;
+	//END $$
+	//DELIMITER ;
+	var products []entities.Product
+	db.Raw("call findBetween(?, ?)", min, max).Scan(&products)
+	return products, nil
+}
 func (*productModel) GroupBy() ([]entities.ProductGroup, error) {
 	db, err := config.GetDB()
 	if err != nil {
@@ -49,7 +82,7 @@ func (*productModel) SelectWithConditions(status bool) ([]entities.ProductInfo, 
 	var products []entities.ProductInfo
 	//TODO: chua phan biet duoc debug va ko debug
 	if err = db.Debug().Table("product").Where("status = ?", status).Select("id, name, price").Find(&products).Error; err != nil {
-	//if err = db.Table("product").Where("status = ?", status).Select("id, name, price").Find(&products).Error; err != nil {
+		//if err = db.Table("product").Where("status = ?", status).Select("id, name, price").Find(&products).Error; err != nil {
 		return nil, err
 	}
 	return products, nil

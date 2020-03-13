@@ -97,7 +97,9 @@ func main() {
 	//products, _ := productModel.FindAndOrderBy("desc")
 	//products, _ := productModel.OrderByAndConditions(false)
 	//products, _ := productModel.LimitAndWhereAndOrderBy(true, 3)
-	products, _ := productModel.SelectWithConditions(false)
+	//products, _ := productModel.SelectWithConditions(false)
+	//products, _ := productModel.FindAllStoredProcedureNoParameter()
+	products, _ := productModel.FindByStoredProcedureHasParameter(10, 20)
 	for _, product := range products {
 		fmt.Println(product.ToString())
 		fmt.Println("-----------------")
