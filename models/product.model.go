@@ -21,6 +21,7 @@ type ProductRepository interface {
 	GroupBy() ([]entities.ProductGroup, error)
 	FindAllStoredProcedureNoParameter() ([]entities.Product, error)
 	FindByStoredProcedureHasParameter(min, max float64) ([]entities.Product, error)
+	SumWithCalculate(status bool) (float64, error)
 }
 
 func NewProductRepository() ProductRepository {
@@ -30,6 +31,16 @@ func NewProductRepository() ProductRepository {
 type productModel struct {
 }
 
+func (*productModel) SumWithCalculate(status bool) (float64, error) {
+	db, err := config.GetDB()
+	if err != nil {
+		return 0, err
+	}
+	var result float64
+	row := db.Table("product").Where("status = ?", status).Select("sum(price * quantity)").Row()
+	row.Scan(&result)
+	return result, nil
+}
 func (*productModel) FindAllStoredProcedureNoParameter() ([]entities.Product, error) {
 	db, err := config.GetDB()
 	if err != nil {

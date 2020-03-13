@@ -99,11 +99,11 @@ func main() {
 	//products, _ := productModel.LimitAndWhereAndOrderBy(true, 3)
 	//products, _ := productModel.SelectWithConditions(false)
 	//products, _ := productModel.FindAllStoredProcedureNoParameter()
-	products, _ := productModel.FindByStoredProcedureHasParameter(10, 20)
-	for _, product := range products {
-		fmt.Println(product.ToString())
-		fmt.Println("-----------------")
-	}
+	//products, _ := productModel.FindByStoredProcedureHasParameter(10, 20)
+	//for _, product := range products {
+	//	fmt.Println(product.ToString())
+	//	fmt.Println("-----------------")
+	//}
 
 	//products, _ := productModel.GroupBy()
 	//for _, product := range products {
@@ -115,4 +115,7 @@ func main() {
 	//	fmt.Println("Avg price:", product.Result5)
 	//	fmt.Println("-----------------")
 	//}
+
+	result, _ := productModel.SumWithCalculate(true)
+	fmt.Println("Sum: ", result)
 }
