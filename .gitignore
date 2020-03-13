@@ -1,0 +1,11 @@
+ctfs
+.idea
+.vscode
+.envrc
+platform-job_darwin_amd64
+platform-job_linux_amd64
+platform-job
+helpers/config/cyml.go
+*_mock.go
+vendor/
+.DS_Store
