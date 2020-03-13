@@ -37,6 +37,7 @@ func (*productModel) GroupBy() ([]entities.ProductGroup, error) {
 	db.Table("product").
 		Select("status, count(id) as result1, sum(quantity) as result2, min(price) as result3, max(price) as result4, avg(price) as result5").
 		Group("status").
+		Having("count(id) > 2").
 		Scan(&productGroups)
 	return productGroups, nil
 }
@@ -46,7 +47,9 @@ func (*productModel) SelectWithConditions(status bool) ([]entities.ProductInfo, 
 		return nil, err
 	}
 	var products []entities.ProductInfo
-	if err = db.Table("product").Where("status = ?", status).Select("id, name, price").Find(&products).Error; err != nil {
+	//TODO: chua phan biet duoc debug va ko debug
+	if err = db.Debug().Table("product").Where("status = ?", status).Select("id, name, price").Find(&products).Error; err != nil {
+	//if err = db.Table("product").Where("status = ?", status).Select("id, name, price").Find(&products).Error; err != nil {
 		return nil, err
 	}
 	return products, nil

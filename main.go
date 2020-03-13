@@ -97,20 +97,20 @@ func main() {
 	//products, _ := productModel.FindAndOrderBy("desc")
 	//products, _ := productModel.OrderByAndConditions(false)
 	//products, _ := productModel.LimitAndWhereAndOrderBy(true, 3)
-	//products, _ := productModel.SelectWithConditions(true)
-	//for _, product := range products {
-	//	fmt.Println(product.ToString())
-	//	fmt.Println("-----------------")
-	//}
-
-	products, _ := productModel.GroupBy()
+	products, _ := productModel.SelectWithConditions(false)
 	for _, product := range products {
-		fmt.Println("Status:", product.Status)
-		fmt.Println("Count product:", product.Result1)
-		fmt.Println("Sum quantity:", product.Result2)
-		fmt.Println("Min price:", product.Result3)
-		fmt.Println("Max price:", product.Result4)
-		fmt.Println("Avg price:", product.Result5)
+		fmt.Println(product.ToString())
 		fmt.Println("-----------------")
 	}
+
+	//products, _ := productModel.GroupBy()
+	//for _, product := range products {
+	//	fmt.Println("Status:", product.Status)
+	//	fmt.Println("Count product:", product.Result1)
+	//	fmt.Println("Sum quantity:", product.Result2)
+	//	fmt.Println("Min price:", product.Result3)
+	//	fmt.Println("Max price:", product.Result4)
+	//	fmt.Println("Avg price:", product.Result5)
+	//	fmt.Println("-----------------")
+	//}
 }
