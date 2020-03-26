@@ -37,6 +37,9 @@ func PointAvailableTransactionInsert() {
 		}
 	}
 }
+func Welcome() {
+	fmt.Println("Hello")
+}
 func PointPendingTransactionInsert() {
 	var pptModel models.PointPendingTransactionRepository
 	pptModel = models.NewPointPendingTransactionRepository()
