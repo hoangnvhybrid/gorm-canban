@@ -64,6 +64,7 @@ func PointPendingTransactionInsert() {
 	}
 }
 func main() {
+	Welcome()
 	//Postgres
 
 	//PointAvailableTransactionInsert()
