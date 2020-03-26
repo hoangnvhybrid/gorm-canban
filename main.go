@@ -11,7 +11,7 @@ func PointAvailableTransactionInsert() {
 	patModel = models.NewPointAvailableTransactionRepository()
 	count := 0
 	var walletId uint64
-	for i := 1027646; i < 5027646; i++ {
+	for i := 1; i < 5027646; i++ {
 		walletId = uint64(i)
 		if count % 2 == 0 {
 			walletId = uint64(i)-1
@@ -40,7 +40,7 @@ func PointAvailableTransactionInsert() {
 func PointPendingTransactionInsert() {
 	var pptModel models.PointPendingTransactionRepository
 	pptModel = models.NewPointPendingTransactionRepository()
-	for i := 1027646; i < 5027646; i++ {
+	for i := 1; i < 5027646; i++ {
 		// Create
 		now := time.Now()
 		ppt := entities.PointPendingTransaction{
@@ -68,7 +68,7 @@ func main() {
 
 	var walletModel models.WalletRepository
 	walletModel = models.NewWalletRepository()
-	for i := 2027646; i < 4027646; i++ {
+	for i := 0; i < 5027646; i++ {
 		// Create
 		wallet := entities.Wallet{
 
