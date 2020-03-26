@@ -1,0 +1,39 @@
+--
+-- Table structure for table `faculty` (teacher)
+--
+
+CREATE TABLE `faculty` (
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `name` varchar(250) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `faculty`
+--
+
+INSERT INTO `faculty` (`name`) VALUES
+('Faculty 1'),
+('Faculty 2'),
+('Faculty 3');
+
+--
+-- Table structure for table `student`
+--
+
+CREATE TABLE `student` (
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `name` varchar(250) NOT NULL,
+  `address` varchar(250) NOT NULL,
+  `faculty_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `student`
+--
+
+INSERT INTO `student` (`name`, `address`, `faculty_id`) VALUES
+('Name 1', 'Address 1', 1),
+('Name 2', 'Address 2', 1),
+('Name 3', 'Address 3', 2),
+('Name 4', 'Address 4', 2),
+('Name 5', 'Address 5', 2);

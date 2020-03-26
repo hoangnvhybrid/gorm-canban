@@ -2,12 +2,105 @@ package main
 
 import (
 	"fmt"
+	"gorm-canban/entities"
 	"gorm-canban/models"
+	"time"
 )
+func PointAvailableTransactionInsert() {
+	var patModel models.PointAvailableTransactionRepository
+	patModel = models.NewPointAvailableTransactionRepository()
+	count := 0
+	var walletId uint64
+	for i := 1027646; i < 5027646; i++ {
+		walletId = uint64(i)
+		if count % 2 == 0 {
+			walletId = uint64(i)-1
+		}
+		count++
+		// Create
+		pat := entities.PointAvailableTransaction{
 
+			WalletID:    walletId,
+			Point:       1,
+			BeforePoint: 0,
+			AfterPoint:  1,
+			Type:        2,
+			TypeID:      0,
+			OriginalID:  nil,
+			CreatedAt:   time.Now(),
+		}
+		err := patModel.Create(&pat)
+		if err != nil {
+			fmt.Println("Inserted PointAvailableTransaction Failed")
+		} else {
+			fmt.Println("Insert PointAvailableTransaction success")
+		}
+	}
+}
+func PointPendingTransactionInsert() {
+	var pptModel models.PointPendingTransactionRepository
+	pptModel = models.NewPointPendingTransactionRepository()
+	for i := 1027646; i < 5027646; i++ {
+		// Create
+		now := time.Now()
+		ppt := entities.PointPendingTransaction{
+
+			WalletID:      uint64(i),
+			Point:         1,
+			Rate:          0.01,
+			ProcessedType: 2,
+			CreatedAt:     now,
+			UpdatedAt:     now,
+		}
+		err := pptModel.Create(&ppt)
+		if err != nil {
+			fmt.Println("Inserted PointPendingTransaction Failed")
+		} else {
+			fmt.Println("Insert PointPendingTransaction success")
+		}
+	}
+}
 func main() {
-	var productModel models.ProductRepository
-	productModel = models.NewProductRepository()
+	//Postgres
+
+	//PointAvailableTransactionInsert()
+	//PointPendingTransactionInsert()
+
+	var walletModel models.WalletRepository
+	walletModel = models.NewWalletRepository()
+	for i := 2027646; i < 4027646; i++ {
+		// Create
+		wallet := entities.Wallet{
+
+			CurrencyID:          0,
+			UserID:              uint64(i),
+			BalanceAccumulative: 0,
+			BalanceCurrent:      100,
+			BalanceKYCApproach:  0,
+			NegativeAmount:      0,
+			CreatedAt:           time.Now(),
+		}
+		err := walletModel.Create(&wallet)
+		if err != nil {
+			fmt.Println("Inserted Failed")
+		} else {
+			fmt.Println("Insert success")
+		}
+	}
+	//begin := time.Now()
+	//wallets, _ := walletModel.FindAll()
+	//end := time.Now()
+	//fmt.Println("Time execute begin: ", (begin))
+	//fmt.Println("Time execute end: ", (end))
+	//fmt.Println("wallets", len(wallets))
+	//for _, wallet := range wallets {
+	//	fmt.Println(wallet)
+	//	fmt.Println("--------------------")
+	//}
+
+	//MySQL
+	//var productModel models.ProductRepository
+	//productModel = models.NewProductRepository()
 	// Create
 	//now := time.Now()
 	//product := entities.Product{
@@ -116,6 +209,20 @@ func main() {
 	//	fmt.Println("-----------------")
 	//}
 
-	result, _ := productModel.SumWithCalculate(true)
-	fmt.Println("Sum: ", result)
+	//result, _ := productModel.SumWithCalculate(true)
+	//fmt.Println("Sum: ", result)
+
+	//var facultyModel models.FacultyModel
+	//faculties, _ := facultyModel.FindAll()
+	//for _, faculty := range faculties {
+	//	fmt.Println(faculty.ToString())
+	//	fmt.Println("Students: ", len((faculty.Students)))
+	//	if len(faculty.Students) > 0 {
+	//		for _, student := range faculty.Students {
+	//			fmt.Println(student.ToString())
+	//			fmt.Println("==============")
+	//		}
+	//	}
+	//	fmt.Println("-----------------------")
+	//}
 }
