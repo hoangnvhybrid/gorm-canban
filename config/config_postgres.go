@@ -30,7 +30,6 @@ func newConnection() (db *gorm.DB) {
 	connStr = connectionString
 	db, err := gorm.Open("postgres", connStr)
 	if err != nil {
-		fmt.Println("chay vao day chua")
 		fmt.Println(err.Error())
 		panic(err)
 	}
